@@ -1,0 +1,1462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#17251f">
+    <meta name="description" content="A focused news briefing built from specialist reporting published in the last seven days.">
+    <title>Signal Desk | A clearer news briefing</title>
+
+    <style>
+        :root {
+            color-scheme: light;
+            --page: #f5f4ef;
+            --paper: #fffefa;
+            --paper-alt: #f0efe8;
+            --ink: #17251f;
+            --ink-soft: #48564e;
+            --muted: #788078;
+            --line: #e2e1d8;
+            --green: #355d49;
+            --green-dark: #284737;
+            --green-pale: #eaf0e9;
+            --orange: #e0794d;
+            --orange-pale: #fbede5;
+            --shadow: 0 18px 50px rgba(32, 42, 34, 0.07);
+            --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            --radius: 14px;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            min-width: 0;
+            margin: 0;
+            background: var(--page);
+            color: var(--ink);
+            font-family: var(--font);
+            font-size: 15px;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        button,
+        input,
+        select {
+            font: inherit;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        button:focus-visible,
+        a:focus-visible,
+        input:focus-visible,
+        select:focus-visible {
+            outline: 3px solid rgba(224, 121, 77, 0.65);
+            outline-offset: 3px;
+        }
+
+        .site-header {
+            position: relative;
+            z-index: 1;
+            background: var(--ink);
+            color: #fffefa;
+        }
+
+        .header-inner,
+        .page-shell,
+        .footer-inner {
+            width: min(1120px, calc(100% - 48px));
+            margin: 0 auto;
+        }
+
+        .header-inner {
+            display: flex;
+            min-height: 78px;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+        }
+
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 11px;
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .brand-mark {
+            position: relative;
+            display: grid;
+            width: 34px;
+            height: 34px;
+            place-items: center;
+            border: 1px solid rgba(255, 254, 250, 0.25);
+            border-radius: 50%;
+        }
+
+        .brand-mark::before,
+        .brand-mark::after {
+            position: absolute;
+            display: block;
+            content: "";
+            border-radius: 50%;
+        }
+
+        .brand-mark::before {
+            width: 14px;
+            height: 14px;
+            background: var(--orange);
+        }
+
+        .brand-mark::after {
+            width: 6px;
+            height: 6px;
+            background: #fffefa;
+            transform: translate(7px, -7px);
+        }
+
+        .brand-name {
+            display: block;
+            font-size: 17px;
+            font-weight: 750;
+            letter-spacing: -0.5px;
+            line-height: 1.1;
+        }
+
+        .brand-caption {
+            display: block;
+            margin-top: 4px;
+            color: #b6c1b9;
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            line-height: 1;
+        }
+
+        .header-nav {
+            display: flex;
+            align-items: center;
+            gap: 27px;
+        }
+
+        .header-nav a {
+            color: #d7ded8;
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: color 0.15s ease;
+        }
+
+        .header-nav a:hover {
+            color: #ffffff;
+        }
+
+        .header-nav .nav-cta {
+            padding: 9px 14px;
+            border: 1px solid rgba(255, 254, 250, 0.32);
+            border-radius: 7px;
+            color: #fffefa;
+        }
+
+        .header-nav .nav-cta:hover {
+            border-color: #fffefa;
+            background: rgba(255, 254, 250, 0.08);
+        }
+
+        .page-shell {
+            padding-top: 46px;
+        }
+
+        .hero {
+            position: relative;
+            display: grid;
+            min-height: 294px;
+            grid-template-columns: minmax(0, 1fr) 250px;
+            align-items: center;
+            gap: 38px;
+            overflow: hidden;
+            padding: 44px 48px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 18px;
+            background:
+                radial-gradient(ellipse at 87% 14%, rgba(80, 120, 87, 0.24), transparent 34%),
+                linear-gradient(118deg, #17251f 4%, #20372a 66%, #294633 100%);
+            box-shadow: var(--shadow);
+            color: #fffefa;
+        }
+
+        .hero::after {
+            position: absolute;
+            top: -118px;
+            right: 25px;
+            width: 340px;
+            height: 340px;
+            border: 1px solid rgba(255, 254, 250, 0.09);
+            border-radius: 50%;
+            content: "";
+            pointer-events: none;
+        }
+
+        .hero-copy,
+        .hero-note {
+            position: relative;
+            z-index: 1;
+        }
+
+        .overline,
+        .section-kicker,
+        .panel-kicker {
+            font-size: 10px;
+            font-weight: 750;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .overline {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            margin: 0 0 16px;
+            color: #cad7cc;
+        }
+
+        .overline::before {
+            width: 19px;
+            height: 2px;
+            background: var(--orange);
+            content: "";
+        }
+
+        .hero h1 {
+            max-width: 600px;
+            margin: 0;
+            font-size: clamp(38px, 5vw, 58px);
+            font-weight: 720;
+            letter-spacing: -2.9px;
+            line-height: 1.05;
+        }
+
+        .hero h1 span {
+            color: #e9a47e;
+        }
+
+        .hero-description {
+            max-width: 540px;
+            margin: 17px 0 0;
+            color: #d2dbd3;
+            font-size: 15px;
+            line-height: 1.7;
+        }
+
+        .hero-note {
+            align-self: end;
+            justify-self: end;
+            width: 100%;
+            max-width: 230px;
+            padding: 19px 20px;
+            border: 1px solid rgba(255, 254, 250, 0.15);
+            border-radius: 12px;
+            background: rgba(255, 254, 250, 0.07);
+            backdrop-filter: blur(8px);
+        }
+
+        .hero-note-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+            color: #cbd6cc;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .live-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #8cbd8f;
+            box-shadow: 0 0 0 4px rgba(140, 189, 143, 0.13);
+        }
+
+        .hero-note strong {
+            display: block;
+            font-size: 21px;
+            font-weight: 650;
+            letter-spacing: -0.6px;
+            line-height: 1.3;
+        }
+
+        .hero-note p {
+            margin: 6px 0 0;
+            color: #cbd6cc;
+            font-size: 12px;
+        }
+
+        .search-panel {
+            position: relative;
+            z-index: 2;
+            margin: -25px 24px 0;
+            padding: 22px 24px 18px;
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            background: var(--paper);
+            box-shadow: 0 14px 36px rgba(32, 42, 34, 0.09);
+        }
+
+        .search-topline {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 15px;
+        }
+
+        .search-topline h2 {
+            margin: 0;
+            font-size: 16px;
+            font-weight: 700;
+            letter-spacing: -0.2px;
+        }
+
+        .search-topline p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .search-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 180px 166px;
+            align-items: end;
+            gap: 12px;
+        }
+
+        .field label {
+            display: block;
+            margin-bottom: 6px;
+            color: var(--ink-soft);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .field input,
+        .field select {
+            width: 100%;
+            min-height: 46px;
+            padding: 10px 13px;
+            border: 1px solid #d5d8cf;
+            border-radius: 7px;
+            background: #fff;
+            color: var(--ink);
+            font-size: 14px;
+        }
+
+        .field input::placeholder {
+            color: #9a9e95;
+        }
+
+        .field input:focus,
+        .field select:focus {
+            border-color: var(--green);
+            outline: 3px solid rgba(53, 93, 73, 0.14);
+        }
+
+        .button {
+            display: inline-flex;
+            min-height: 42px;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            padding: 9px 15px;
+            border: 1px solid transparent;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 700;
+            line-height: 1.3;
+            text-decoration: none;
+            transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, transform 0.15s ease;
+        }
+
+        .button-primary {
+            min-height: 46px;
+            background: var(--green);
+            color: #fff;
+        }
+
+        .button-primary:hover:not(:disabled) {
+            background: var(--green-dark);
+            transform: translateY(-1px);
+        }
+
+        .button-secondary {
+            border-color: var(--line);
+            background: var(--paper);
+            color: var(--ink-soft);
+        }
+
+        .button-secondary:hover:not(:disabled) {
+            border-color: #bfc9be;
+            background: var(--green-pale);
+            color: var(--green-dark);
+        }
+
+        .button:disabled {
+            cursor: not-allowed;
+            opacity: 0.46;
+        }
+
+        .button svg {
+            width: 15px;
+            height: 15px;
+            flex: 0 0 auto;
+        }
+
+        .topic-shortcuts {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 8px;
+            margin-top: 14px;
+        }
+
+        .shortcut-label {
+            margin-right: 2px;
+            color: var(--muted);
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .topic-chip {
+            padding: 5px 10px;
+            border: 1px solid #e6e5dc;
+            border-radius: 999px;
+            background: transparent;
+            color: var(--ink-soft);
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: 600;
+            transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+        }
+
+        .topic-chip:hover {
+            border-color: #c6d3c6;
+            background: var(--green-pale);
+            color: var(--green-dark);
+        }
+
+        .status-message {
+            min-height: 21px;
+            margin: 10px 0 0;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .status-message[data-state="error"] {
+            color: #a63e2d;
+        }
+
+        .status-message[data-state="success"] {
+            color: var(--green);
+        }
+
+        .workspace {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 280px;
+            align-items: start;
+            gap: 26px;
+            margin: 36px 24px 0;
+        }
+
+        .main-column {
+            min-width: 0;
+        }
+
+        .section-heading {
+            display: flex;
+            align-items: end;
+            justify-content: space-between;
+            gap: 18px;
+            margin: 0 0 16px;
+        }
+
+        .section-kicker,
+        .panel-kicker {
+            margin: 0 0 5px;
+            color: var(--green);
+        }
+
+        .section-heading h2 {
+            margin: 0;
+            font-size: 22px;
+            font-weight: 720;
+            letter-spacing: -0.7px;
+            line-height: 1.25;
+        }
+
+        .section-description {
+            margin: 5px 0 0;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .export-actions {
+            display: flex;
+            flex: 0 0 auto;
+            flex-wrap: wrap;
+            gap: 7px;
+        }
+
+        .export-actions .button {
+            min-height: 35px;
+            padding: 7px 10px;
+            font-size: 11px;
+        }
+
+        .export-label {
+            color: var(--muted);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+        }
+
+        .story-list {
+            display: grid;
+            gap: 12px;
+        }
+
+        .story-card {
+            position: relative;
+            padding: 20px 21px;
+            border: 1px solid var(--line);
+            border-radius: 11px;
+            background: var(--paper);
+            box-shadow: 0 4px 14px rgba(32, 42, 34, 0.035);
+            transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+        }
+
+        .story-card:hover {
+            transform: translateY(-2px);
+            border-color: #c9d2c7;
+            box-shadow: 0 10px 25px rgba(32, 42, 34, 0.08);
+        }
+
+        .story-card-featured {
+            padding: 23px 24px;
+            border-top: 3px solid var(--orange);
+        }
+
+        .story-topline {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 11px;
+        }
+
+        .publisher-badge {
+            display: inline-flex;
+            align-items: center;
+            min-height: 23px;
+            padding: 3px 9px;
+            border-radius: 999px;
+            background: var(--green-pale);
+            color: var(--green-dark);
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .featured-label {
+            color: #b45b36;
+            font-size: 9px;
+            font-weight: 750;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .story-date {
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        .story-card h3 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: -0.45px;
+            line-height: 1.4;
+        }
+
+        .story-card-featured h3 {
+            font-size: 21px;
+            letter-spacing: -0.65px;
+        }
+
+        .story-card h3 a {
+            color: var(--ink);
+            text-decoration: none;
+        }
+
+        .story-card h3 a:hover {
+            color: var(--green);
+            text-decoration: underline;
+            text-decoration-color: #a9bea9;
+            text-underline-offset: 3px;
+        }
+
+        .story-summary {
+            margin: 11px 0 0;
+            color: var(--ink-soft);
+            font-size: 13px;
+            line-height: 1.75;
+        }
+
+        .story-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-top: 15px;
+            padding-top: 12px;
+            border-top: 1px solid #eeede6;
+        }
+
+        .story-context {
+            color: var(--muted);
+            font-size: 10px;
+        }
+
+        .source-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            color: var(--green);
+            font-size: 11px;
+            font-weight: 700;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .source-link:hover {
+            color: var(--green-dark);
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+
+        .empty-state {
+            display: grid;
+            min-height: 290px;
+            justify-items: center;
+            align-content: center;
+            padding: 30px;
+            border: 1px dashed #d4d7cc;
+            border-radius: 12px;
+            background: rgba(255, 254, 250, 0.68);
+            text-align: center;
+        }
+
+        .empty-icon {
+            display: grid;
+            width: 48px;
+            height: 48px;
+            margin-bottom: 13px;
+            place-items: center;
+            border-radius: 15px;
+            background: var(--orange-pale);
+            color: #b45b36;
+        }
+
+        .empty-icon svg {
+            width: 22px;
+            height: 22px;
+        }
+
+        .empty-state h3 {
+            margin: 0;
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .empty-state p {
+            max-width: 340px;
+            margin: 6px 0 0;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .sidebar {
+            display: grid;
+            gap: 13px;
+        }
+
+        .side-card {
+            padding: 19px;
+            border: 1px solid var(--line);
+            border-radius: 11px;
+            background: var(--paper);
+            box-shadow: 0 4px 14px rgba(32, 42, 34, 0.035);
+        }
+
+        .side-card h2 {
+            margin: 0;
+            font-size: 15px;
+            font-weight: 720;
+            letter-spacing: -0.2px;
+        }
+
+        .coverage-list {
+            display: grid;
+            gap: 0;
+            margin: 14px 0 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .coverage-list li + li {
+            border-top: 1px solid #eeede6;
+        }
+
+        .coverage-list a {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            padding: 11px 0;
+            color: var(--ink);
+            font-size: 11px;
+            font-weight: 650;
+            text-decoration: none;
+        }
+
+        .coverage-list a:hover {
+            color: var(--green);
+        }
+
+        .coverage-arrow {
+            color: #9ca59c;
+            font-size: 14px;
+        }
+
+        .coverage-note {
+            margin: 10px 0 0;
+            padding: 11px 12px;
+            border-radius: 8px;
+            background: var(--paper-alt);
+            color: var(--ink-soft);
+            font-size: 10px;
+            line-height: 1.65;
+        }
+
+        .method-card {
+            background: #e9eee7;
+            box-shadow: none;
+        }
+
+        .method-card p {
+            margin: 8px 0 0;
+            color: var(--ink-soft);
+            font-size: 11px;
+            line-height: 1.7;
+        }
+
+        .method-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            margin-top: 13px;
+            color: var(--green-dark);
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .method-label svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        .site-footer {
+            margin-top: 48px;
+            border-top: 1px solid var(--line);
+        }
+
+        .footer-inner {
+            display: flex;
+            min-height: 72px;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            color: var(--muted);
+            font-size: 10px;
+        }
+
+        .footer-brand {
+            color: var(--ink-soft);
+            font-weight: 700;
+            letter-spacing: 0.4px;
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            clip-path: inset(50%);
+        }
+
+        @media (max-width: 900px) {
+            .hero {
+                grid-template-columns: minmax(0, 1fr) 205px;
+                gap: 24px;
+                padding: 36px;
+            }
+
+            .workspace {
+                grid-template-columns: minmax(0, 1fr) 250px;
+                gap: 18px;
+            }
+
+            .search-panel {
+                margin-right: 14px;
+                margin-left: 14px;
+            }
+
+            .search-grid {
+                grid-template-columns: minmax(0, 1fr) 150px 150px;
+            }
+        }
+
+        @media (max-width: 720px) {
+            .header-inner,
+            .page-shell,
+            .footer-inner {
+                width: min(100% - 32px, 560px);
+            }
+
+            .page-shell {
+                padding-top: 24px;
+            }
+
+            .hero {
+                min-height: 0;
+                grid-template-columns: 1fr;
+                gap: 23px;
+                padding: 30px 26px 48px;
+            }
+
+            .hero-note {
+                justify-self: start;
+                max-width: 100%;
+                padding: 14px 16px;
+            }
+
+            .hero-note strong {
+                font-size: 17px;
+            }
+
+            .hero-note p {
+                margin-top: 3px;
+            }
+
+            .search-panel {
+                margin: -24px 10px 0;
+                padding: 18px;
+            }
+
+            .search-grid {
+                grid-template-columns: minmax(0, 1fr) 145px;
+            }
+
+            .search-grid .button-primary {
+                grid-column: 1 / -1;
+                width: 100%;
+            }
+
+            .workspace {
+                grid-template-columns: 1fr;
+                margin: 29px 10px 0;
+            }
+
+            .sidebar {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                align-items: start;
+            }
+
+            .section-heading {
+                align-items: start;
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-inner,
+            .page-shell,
+            .footer-inner {
+                width: calc(100% - 28px);
+            }
+
+            .header-inner {
+                min-height: 68px;
+            }
+
+            .header-nav {
+                gap: 13px;
+            }
+
+            .header-nav a {
+                font-size: 11px;
+            }
+
+            .header-nav .nav-coverage {
+                display: none;
+            }
+
+            .header-nav .nav-cta {
+                padding: 7px 9px;
+            }
+
+            .hero {
+                padding: 26px 21px 42px;
+                border-radius: 14px;
+            }
+
+            .hero h1 {
+                font-size: clamp(37px, 10vw, 48px);
+                letter-spacing: -2px;
+            }
+
+            .hero-description {
+                font-size: 13px;
+            }
+
+            .search-panel {
+                margin-right: 5px;
+                margin-left: 5px;
+                padding: 17px 15px 14px;
+            }
+
+            .search-topline {
+                align-items: start;
+                flex-direction: column;
+                gap: 2px;
+            }
+
+            .search-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .search-grid .button-primary {
+                grid-column: auto;
+            }
+
+            .topic-shortcuts {
+                gap: 6px;
+            }
+
+            .shortcut-label {
+                width: 100%;
+            }
+
+            .workspace {
+                margin-right: 5px;
+                margin-left: 5px;
+            }
+
+            .section-heading h2 {
+                font-size: 20px;
+            }
+
+            .export-actions {
+                width: 100%;
+            }
+
+            .export-actions .button {
+                flex: 1;
+            }
+
+            .story-card,
+            .story-card-featured {
+                padding: 18px 16px;
+            }
+
+            .story-card h3,
+            .story-card-featured h3 {
+                font-size: 17px;
+            }
+
+            .story-bottom {
+                align-items: start;
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .sidebar {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-inner {
+                align-items: start;
+                flex-direction: column;
+                justify-content: center;
+                gap: 4px;
+                padding: 15px 0;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                scroll-behavior: auto !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="header-inner">
+            <a class="brand" href="#" aria-label="Signal Desk home">
+                <span class="brand-mark" aria-hidden="true"></span>
+                <span>
+                    <span class="brand-name">signal</span>
+                    <span class="brand-caption">NEWS DESK</span>
+                </span>
+            </a>
+            <nav class="header-nav" aria-label="Main navigation">
+                <a class="nav-coverage" href="#coverage">Our sources</a>
+                <a class="nav-cta" href="#search">Build a briefing</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="page-shell">
+        <section class="hero" aria-labelledby="hero-title">
+            <div class="hero-copy">
+                <p class="overline">A more focused way to follow the field</p>
+                <h1 id="hero-title">Get the signal.<br><span>Skip the noise.</span></h1>
+                <p class="hero-description">
+                    Build a concise, source-linked briefing from specialist reporting.
+                    One topic, the latest seven days, all in one place.
+                </p>
+            </div>
+            <div class="hero-note">
+                <div class="hero-note-label"><span class="live-dot" aria-hidden="true"></span> Your reading window</div>
+                <strong>The last 7 days</strong>
+                <p>Recent stories from specialist publishers.</p>
+            </div>
+        </section>
+
+        <section class="search-panel" id="search" aria-labelledby="search-title">
+            <div class="search-topline">
+                <h2 id="search-title">What are you following?</h2>
+                <p>Choose a topic to build your briefing.</p>
+            </div>
+            <form id="searchForm">
+                <div class="search-grid">
+                    <div class="field">
+                        <label for="topic">Topic or keyword</label>
+                        <input
+                            type="search"
+                            id="topic"
+                            name="topic"
+                            placeholder="Try artificial intelligence or data science"
+                            autocomplete="off"
+                            required
+                        >
+                    </div>
+                    <div class="field">
+                        <label for="limit">Stories to include</label>
+                        <select id="limit" name="limit">
+                            <option value="5">Up to 5 stories</option>
+                            <option value="10">Up to 10 stories</option>
+                            <option value="15">Up to 15 stories</option>
+                            <option value="20">Up to 20 stories</option>
+                        </select>
+                    </div>
+                    <button class="button button-primary" id="searchButton" type="submit">
+                        <span>Build my briefing</span>
+                        <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                            <path d="M4 10h11m-4-4 4 4-4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                </div>
+            </form>
+            <div class="topic-shortcuts" aria-label="Suggested topics">
+                <span class="shortcut-label">A few ideas</span>
+                <button class="topic-chip" type="button" data-topic="artificial intelligence">Artificial intelligence</button>
+                <button class="topic-chip" type="button" data-topic="data science">Data science</button>
+                <button class="topic-chip" type="button" data-topic="NVIDIA">NVIDIA</button>
+            </div>
+            <p class="status-message" id="status" role="status" aria-live="polite">
+                Pick a topic to see what the specialist press has published this week.
+            </p>
+        </section>
+
+        <div class="workspace">
+            <div class="main-column">
+                <section aria-labelledby="results-title">
+                    <div class="section-heading">
+                        <div>
+                            <p class="section-kicker">Your reading list</p>
+                            <h2 id="results-title">The latest brief</h2>
+                            <p class="section-description" id="resultsDescription">
+                                Search a topic to bring the most relevant recent stories together.
+                            </p>
+                        </div>
+                        <div class="export-actions" aria-label="Export briefing">
+                            <span class="export-label">Export</span>
+                            <button class="button button-secondary" id="jsonBtn" type="button" disabled>JSON</button>
+                            <button class="button button-secondary" id="csvBtn" type="button" disabled>CSV</button>
+                            <button class="button button-secondary" id="mdBtn" type="button" disabled>Markdown</button>
+                        </div>
+                    </div>
+
+                    <div class="story-list" id="articles" aria-live="polite" aria-busy="false">
+                        <div class="empty-state">
+                            <span class="empty-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" fill="none">
+                                    <circle cx="10.8" cy="10.8" r="6.8" stroke="currentColor" stroke-width="1.7"/>
+                                    <path d="m16 16 4.2 4.2M8 10.8h5.6m-2.8-2.8v5.6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+                                </svg>
+                            </span>
+                            <h3>Your next good read starts here.</h3>
+                            <p>Choose a topic above. We'll gather recent matches and give each story a short, source-linked summary.</p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <aside class="sidebar" id="coverage" aria-label="Source and methodology information">
+                <section class="side-card">
+                    <p class="panel-kicker">The source list</p>
+                    <h2>Specialist voices, not everything.</h2>
+                    <ul class="coverage-list">
+                        <li>
+                            <a href="https://www.kdnuggets.com/" target="_blank" rel="noopener noreferrer">
+                                <span>KDnuggets</span><span class="coverage-arrow" aria-hidden="true">&rarr;</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://towardsdatascience.com/" target="_blank" rel="noopener noreferrer">
+                                <span>Towards Data Science</span><span class="coverage-arrow" aria-hidden="true">&rarr;</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.analyticsvidhya.com/" target="_blank" rel="noopener noreferrer">
+                                <span>Analytics Vidhya</span><span class="coverage-arrow" aria-hidden="true">&rarr;</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <p class="coverage-note">Coverage is intentionally focused on data science, analytics, and AI reporting from these publisher feeds.</p>
+                </section>
+
+                <section class="side-card method-card">
+                    <p class="panel-kicker">How it works</p>
+                    <h2>A useful first pass.</h2>
+                    <p>We look for topic matches in recent articles, remove duplicates, and summarize the available text. Open the original story for full context.</p>
+                    <span class="method-label">
+                        <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                            <path d="M8 1.8 13 4v3.7c0 3-2.1 5.3-5 6.5-2.9-1.2-5-3.5-5-6.5V4l5-2.2Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/>
+                            <path d="m5.7 7.9 1.5 1.5 3.2-3.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Publisher links included
+                    </span>
+                </section>
+            </aside>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <span class="footer-brand">signal / NEWS DESK</span>
+            <span>Independent reading aid. Always follow the original reporting for full context.</span>
+        </div>
+    </footer>
+
+    <script>
+        let digest = {
+            topic: "",
+            retrieved_at: null,
+            articles: []
+        };
+
+        const $ = id => document.getElementById(id);
+
+        function escapeHTML(value) {
+            return String(value ?? "").replace(
+                /[&<>"']/g,
+                character => ({
+                    "&": "&amp;",
+                    "<": "&lt;",
+                    ">": "&gt;",
+                    '"': "&quot;",
+                    "'": "&#39;"
+                }[character])
+            );
+        }
+
+        function safeURL(value) {
+            try {
+                const url = new URL(value);
+                if (url.protocol === "http:" || url.protocol === "https:") {
+                    return url.href;
+                }
+            } catch (error) {
+                return "";
+            }
+            return "";
+        }
+
+        function formatDate(value) {
+            if (!value) {
+                return "Date unavailable";
+            }
+
+            const date = new Date(value);
+            if (Number.isNaN(date.getTime())) {
+                return "Date unavailable";
+            }
+
+            return new Intl.DateTimeFormat(undefined, {
+                month: "short",
+                day: "numeric",
+                year: "numeric"
+            }).format(date);
+        }
+
+        function setStatus(message, state) {
+            $("status").textContent = message;
+            $("status").dataset.state = state || "default";
+        }
+
+        function renderEmptyState(hasSearched) {
+            const title = hasSearched
+                ? "No matching stories this time."
+                : "Your next good read starts here.";
+            const message = hasSearched
+                ? "Try a broader keyword or another topic. Coverage depends on the latest items in our publisher feeds."
+                : "Choose a topic above. We'll gather recent matches and give each story a short, source-linked summary.";
+
+            $("articles").innerHTML = `
+                <div class="empty-state">
+                    <span class="empty-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none">
+                            <circle cx="10.8" cy="10.8" r="6.8" stroke="currentColor" stroke-width="1.7"/>
+                            <path d="m16 16 4.2 4.2M8 10.8h5.6m-2.8-2.8v5.6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+                        </svg>
+                    </span>
+                    <h3>${title}</h3>
+                    <p>${message}</p>
+                </div>
+            `;
+        }
+
+        function renderArticles() {
+            const articles = Array.isArray(digest.articles) ? digest.articles : [];
+            const publishers = new Set(
+                articles.map(article => article.source).filter(Boolean)
+            );
+            const hasArticles = articles.length > 0;
+
+            $("jsonBtn").disabled = !hasArticles;
+            $("csvBtn").disabled = !hasArticles;
+            $("mdBtn").disabled = !hasArticles;
+            $("results-title").textContent = digest.topic
+                ? "Briefing: " + digest.topic
+                : "The latest brief";
+            $("resultsDescription").textContent = hasArticles
+                ? `${articles.length} ${articles.length === 1 ? "story" : "stories"} from ${publishers.size} ${publishers.size === 1 ? "publisher" : "publishers"} · latest first`
+                : "Search a topic to bring the most relevant recent stories together.";
+
+            if (!hasArticles) {
+                renderEmptyState(Boolean(digest.topic));
+                return;
+            }
+
+            $("articles").innerHTML = articles.map((article, index) => {
+                const url = safeURL(article.url);
+                const title = escapeHTML(article.title || "Untitled story");
+                const source = escapeHTML(article.source || "Publisher not listed");
+                const published = escapeHTML(formatDate(article.published_at));
+                const summary = escapeHTML(article.summary || "A summary is not available for this story.");
+                const storyTitle = url
+                    ? `<a href="${escapeHTML(url)}" target="_blank" rel="noopener noreferrer">${title}</a>`
+                    : title;
+                const sourceLink = url
+                    ? `<a class="source-link" href="${escapeHTML(url)}" target="_blank" rel="noopener noreferrer">Read original <span aria-hidden="true">&rarr;</span></a>`
+                    : "";
+
+                return `
+                    <article class="story-card${index === 0 ? " story-card-featured" : ""}">
+                        <div class="story-topline">
+                            ${index === 0 ? '<span class="featured-label">Latest story</span>' : ""}
+                            <span class="publisher-badge">${source}</span>
+                            <span class="story-date">${published}</span>
+                        </div>
+                        <h3>${storyTitle}</h3>
+                        <p class="story-summary">${summary}</p>
+                        <div class="story-bottom">
+                            <span class="story-context">A concise summary of the available article text</span>
+                            ${sourceLink}
+                        </div>
+                    </article>
+                `;
+            }).join("");
+        }
+
+        $("searchForm").addEventListener("submit", async event => {
+            event.preventDefault();
+
+            const topic = $("topic").value.trim();
+            const limit = Number($("limit").value);
+
+            if (!topic) {
+                setStatus("Enter a topic or keyword to get started.", "error");
+                $("topic").focus();
+                return;
+            }
+
+            const searchButton = $("searchButton");
+            searchButton.disabled = true;
+            searchButton.querySelector("span").textContent = "Building your briefing...";
+            $("articles").setAttribute("aria-busy", "true");
+            setStatus(`Looking for recent stories about "${topic}"...`, "default");
+
+            try {
+                const response = await fetch("/api/search", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ topic, limit })
+                });
+
+                const result = await response.json().catch(() => null);
+
+                if (!response.ok) {
+                    throw new Error(result?.error || "The news service could not complete this search.");
+                }
+
+                if (!result || !Array.isArray(result.articles)) {
+                    throw new Error("The news service returned an unexpected response. Please try again.");
+                }
+
+                digest = result;
+                renderArticles();
+
+                const count = digest.articles.length;
+                setStatus(
+                    count
+                        ? `Briefing ready. ${count} ${count === 1 ? "story" : "stories"} collected.`
+                        : "No recent matches found. Try a broader topic.",
+                    count ? "success" : "default"
+                );
+            } catch (error) {
+                const message = error instanceof TypeError
+                    ? "Can't reach the news service. Make sure the app server is running, then try again."
+                    : error.message || "The search could not be completed. Please try again.";
+                setStatus(message, "error");
+            } finally {
+                searchButton.disabled = false;
+                searchButton.querySelector("span").textContent = "Build my briefing";
+                $("articles").setAttribute("aria-busy", "false");
+            }
+        });
+
+        document.querySelectorAll(".topic-chip").forEach(button => {
+            button.addEventListener("click", () => {
+                $("topic").value = button.dataset.topic;
+                $("topic").focus();
+            });
+        });
+
+        function downloadFile(filename, content, type) {
+            const blob = new Blob([content], { type });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement("a");
+
+            link.href = url;
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+        }
+
+        $("jsonBtn").addEventListener("click", () => {
+            downloadFile(
+                "news_digest.json",
+                JSON.stringify(digest, null, 2),
+                "application/json"
+            );
+        });
+
+        $("csvBtn").addEventListener("click", () => {
+            const fields = [
+                "title",
+                "source",
+                "url",
+                "published_at",
+                "retrieved_at",
+                "summary"
+            ];
+            const quote = value =>
+                '"' + String(value ?? "").replace(/"/g, '""') + '"';
+            const rows = [
+                fields.join(","),
+                ...digest.articles.map(article =>
+                    fields.map(field => quote(article[field])).join(",")
+                )
+            ];
+
+            downloadFile(
+                "news_digest.csv",
+                rows.join("\r\n"),
+                "text/csv;charset=utf-8"
+            );
+        });
+
+        $("mdBtn").addEventListener("click", () => {
+            let markdown = `# Signal Desk: ${digest.topic}\n\n`;
+            markdown += `Stories collected: ${digest.articles.length}\n\n---\n\n`;
+
+            digest.articles.forEach((article, index) => {
+                const title = article.title || "Untitled story";
+                const url = safeURL(article.url);
+                markdown += url
+                    ? `## ${index + 1}. [${title}](${url})\n\n`
+                    : `## ${index + 1}. ${title}\n\n`;
+                markdown += `**Publisher:** ${article.source || "Publisher not listed"}\n\n`;
+                markdown += `**Published:** ${formatDate(article.published_at)}\n\n`;
+                markdown += `**Summary:**\n\n${article.summary || "A summary is not available for this story."}\n\n---\n\n`;
+            });
+
+            downloadFile(
+                "news_digest.md",
+                markdown,
+                "text/markdown;charset=utf-8"
+            );
+        });
+    </script>
+</body>
+</html>
