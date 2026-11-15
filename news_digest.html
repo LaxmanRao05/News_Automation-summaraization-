@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#17251f">
+    <meta name="description" content="Automated discovery and summarization of recent news from specialist publishers.">
+
+    <title>News Automation Desk | Automated News Discovery</title>
+
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+    <header class="site-header">
+        <div class="header-inner">
+
+            <a class="brand" href="#" aria-label="News Automation Desk home">
+                <span class="brand-mark" aria-hidden="true"></span>
+
+                <span class="brand-name">News Automation </span>
+            </a>
+
+            <nav class="header-nav" aria-label="Main navigation">
+                <a class="nav-coverage" href="#coverage">Our sources</a>
+                <a class="nav-cta" href="#search">Build a briefing</a>
+            </nav>
+
+        </div>
+    </header>
+
+
+    <main class="page-shell">
+
+    <section class="hero" aria-labelledby="hero-title">
+
+        <div class="hero-copy">
+
+            <p class="overline">PYTHON-POWERED NEWS AUTOMATION</p>
+
+            <h1 id="hero-title">
+                Automated News<br>
+                <span>Discovery & Summarization</span>
+            </h1>
+
+            <p class="hero-tagline">
+                Discover the news. Understand it faster.
+            </p>
+
+            <p class="hero-description">
+                Automatically collect recent articles from multiple publishers,
+                extract available content, and generate concise summaries
+                based on your selected topic.
+            </p>
+
+        </div>
+
+        <div class="hero-note">
+            <div class="hero-note-label">
+                <span class="live-dot" aria-hidden="true"></span>
+                Collection window
+            </div>
+
+            <strong>Last 7 days</strong>
+
+            <p>Recent articles collected from publisher feeds.</p>
+        </div>
+
+    </section>
+
+
+        <section class="search-panel" id="search" aria-labelledby="search-title">
+
+            <div class="search-topline">
+                <h2 id="search-title">Start your news search</h2>
+                <p>Enter a keyword and choose how many articles to collect.</p>
+            </div>
+
+            <form id="searchForm">
+
+                <div class="search-grid">
+
+                    <div class="field">
+                        <label for="topic">Search topic or keyword</label>
+
+                        <input
+                            type="search"
+                            id="topic"
+                            name="topic"
+                            placeholder="e.g. artificial intelligence or data science"
+                            autocomplete="off"
+                            required
+                        >
+                    </div>
+
+                    <div class="field">
+                        <label for="limit">Maximum articles</label>
+
+                        <select id="limit" name="limit">
+                            <option value="5">5 articles</option>
+                            <option value="10">10 articles</option>
+                            <option value="15">15 articles</option>
+                            <option value="20">20 articles</option>
+                        </select>
+                    </div>
+
+                    <button class="button button-primary" id="searchButton" type="submit">
+                        <span>Collect and summarize</span>
+
+                        <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                            <path d="M4 10h11m-4-4 4 4-4 4"
+                                stroke="currentColor"
+                                stroke-width="1.7"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+
+                </div>
+            </form>
+
+            <div class="topic-shortcuts" aria-label="Suggested topics">
+                <span class="shortcut-label">Suggested topics</span>
+
+                <button class="topic-chip" type="button"
+                    data-topic="artificial intelligence">
+                    Artificial intelligence
+                </button>
+
+                <button class="topic-chip" type="button"
+                    data-topic="data science">
+                    Data science
+                </button>
+
+                <button class="topic-chip" type="button"
+                    data-topic="NVIDIA">
+                    NVIDIA
+                </button>
+            </div>
+
+            <p class="status-message" id="status" role="status" aria-live="polite">
+                Enter a topic to discover articles published during the last seven days.
+            </p>
+
+        </section>
+
+
+        <div class="workspace">
+
+            <div class="main-column">
+
+                <section aria-labelledby="results-title">
+
+                    <div class="section-heading">
+
+                        <div>
+                            <p class="section-kicker">Collected news articles</p>
+
+                            <h2 id="results-title">News discovery results</h2>
+
+                            <p class="section-description" id="resultsDescription">
+                                Run a search to collect recent articles, summaries, and source links.
+                            </p>
+                        </div>
+
+                        <div class="export-actions" aria-label="Download collected articles">
+
+                            <span class="export-label">Download</span>
+
+                            <button class="button button-secondary"
+                                id="jsonBtn" type="button" disabled>
+                                JSON
+                            </button>
+
+                            <button class="button button-secondary"
+                                id="csvBtn" type="button" disabled>
+                                CSV
+                            </button>
+
+                            <button class="button button-secondary"
+                                id="mdBtn" type="button" disabled>
+                                Markdown
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="story-list" id="articles"
+                        aria-live="polite" aria-busy="false">
+
+                        <div class="empty-state">
+
+                            <span class="empty-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" fill="none">
+                                    <circle cx="10.8" cy="10.8" r="6.8"
+                                        stroke="currentColor" stroke-width="1.7"/>
+                                    <path d="m16 16 4.2 4.2M8 10.8h5.6m-2.8-2.8v5.6"
+                                        stroke="currentColor"
+                                        stroke-width="1.7"
+                                        stroke-linecap="round"/>
+                                </svg>
+                            </span>
+
+                            <h3>Your automated news report starts here.</h3>
+
+                            <p>
+                                Enter a topic above. The news collector will find
+                                recent articles and display summaries and publisher links.
+                            </p>
+
+                        </div>
+                    </div>
+
+                </section>
+
+            </div>
+
+
+            <aside class="sidebar" id="coverage"
+                aria-label="Source and methodology information">
+
+                <section class="side-card">
+
+                    <p class="panel-kicker">Publisher sources</p>
+
+                    <h2>Focused sources for AI and data science news.</h2>
+
+                    <ul class="coverage-list">
+
+                        <li>
+                            <a href="https://www.kdnuggets.com/"
+                                target="_blank" rel="noopener noreferrer">
+                                <span>KDnuggets</span>
+                                <span class="coverage-arrow">&rarr;</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="https://towardsdatascience.com/"
+                                target="_blank" rel="noopener noreferrer">
+                                <span>Towards Data Science</span>
+                                <span class="coverage-arrow">&rarr;</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="https://www.analyticsvidhya.com/"
+                                target="_blank" rel="noopener noreferrer">
+                                <span>Analytics Vidhya</span>
+                                <span class="coverage-arrow">&rarr;</span>
+                            </a>
+                        </li>
+
+                    </ul>
+
+                    <p class="coverage-note">
+                        The automation reads RSS feeds from these publishers
+                        and filters articles based on your search topic.
+                    </p>
+
+                </section>
+
+
+                <section class="side-card method-card">
+
+                    <p class="panel-kicker">Automation process</p>
+
+                    <h2>From discovery to digest.</h2>
+
+                    <p>
+                        The Python script checks publisher RSS feeds, filters
+                        articles from the last seven days, removes duplicates,
+                        extracts available text, and creates short extractive
+                        summaries. Some sites may limit article extraction.
+                    </p>
+
+                    <span class="method-label">
+                        Publisher links included
+                    </span>
+
+                </section>
+
+            </aside>
+
+        </div>
+
+    </main>
+
+
+    <footer class="site-footer">
+
+        <div class="footer-inner">
+            <span class="footer-brand">NEWSFLOW / AUTOMATION DESK</span>
+
+            <span>
+                Automated news collection demo.
+                Visit the original publisher for complete reporting.
+            </span>
+        </div>
+
+    </footer>
+
+
+    <script>
+let digest = {
+    topic: "",
+    retrieved_at: null,
+    articles: []
+};
+
+const $ = id => document.getElementById(id);
+
+function escapeHTML(value) {
+    return String(value ?? "").replace(/[&<>"']/g, character => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+    }[character]));
+}
+
+function safeURL(value) {
+    try {
+        const url = new URL(value);
+        if (url.protocol === "http:" || url.protocol === "https:") {
+            return url.href;
+        }
+    } catch (error) {}
+    return "";
+}
+
+function formatDate(value) {
+    if (!value) return "Date unavailable";
+
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return "Date unavailable";
+
+    return new Intl.DateTimeFormat(undefined, {
+        month: "short",
+        day: "numeric",
+        year: "numeric"
+    }).format(date);
+}
+
+function setStatus(message, state) {
+    $("status").textContent = message;
+    $("status").dataset.state = state || "default";
+}
+
+function renderArticles() {
+    const articles = Array.isArray(digest.articles)
+        ? digest.articles : [];
+
+    const publishers = new Set(
+        articles.map(article => article.source).filter(Boolean)
+    );
+
+    const hasArticles = articles.length > 0;
+
+    $("jsonBtn").disabled = !hasArticles;
+    $("csvBtn").disabled = !hasArticles;
+    $("mdBtn").disabled = !hasArticles;
+
+    $("results-title").textContent = digest.topic
+        ? "Briefing: " + digest.topic
+        : "The latest brief";
+
+    $("resultsDescription").textContent = hasArticles
+        ? `${articles.length} stories from ${publishers.size} publishers · latest first`
+        : "No matching articles were collected.";
+
+    if (!hasArticles) {
+        $("articles").innerHTML = `
+            <div class="empty-state">
+                <h3>No matching articles found.</h3>
+                <p>Try another topic or a broader keyword.</p>
+            </div>`;
+        return;
+    }
+
+    $("articles").innerHTML = articles.map((article, index) => {
+        const url = safeURL(article.url);
+        const title = escapeHTML(article.title || "Untitled article");
+        const source = escapeHTML(article.source || "Unknown publisher");
+        const published = escapeHTML(formatDate(article.published_at));
+        const summary = escapeHTML(article.summary || "Summary unavailable.");
+
+        const storyTitle = url
+            ? `<a href="${escapeHTML(url)}" target="_blank" rel="noopener noreferrer">${title}</a>`
+            : title;
+
+        const sourceLink = url
+            ? `<a class="source-link" href="${escapeHTML(url)}" target="_blank" rel="noopener noreferrer">Read original →</a>`
+            : "";
+
+        return `
+            <article class="story-card${index === 0 ? " story-card-featured" : ""}">
+                <div class="story-topline">
+                    ${index === 0 ? '<span class="featured-label">Latest article</span>' : ""}
+                    <span class="publisher-badge">${source}</span>
+                    <span class="story-date">${published}</span>
+                </div>
+                <h3>${storyTitle}</h3>
+                <p class="story-summary">${summary}</p>
+                <div class="story-bottom">
+                    <span class="story-context">Summary of available article text</span>
+                    ${sourceLink}
+                </div>
+            </article>`;
+    }).join("");
+}
+
+$("searchForm").addEventListener("submit", async event => {
+    event.preventDefault();
+
+    const topic = $("topic").value.trim();
+    const limit = Number($("limit").value);
+
+    if (!topic) {
+        setStatus("Please enter a topic.", "error");
+        $("topic").focus();
+        return;
+    }
+
+    const button = $("searchButton");
+    button.disabled = true;
+    button.querySelector("span").textContent = "Collecting articles...";
+    $("articles").setAttribute("aria-busy", "true");
+
+    setStatus(`Searching for "${topic}"...`, "default");
+
+    try {
+        const response = await fetch("/api/search", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ topic, limit })
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            throw new Error(result.error || "Search failed.");
+        }
+
+        digest = result;
+        renderArticles();
+
+        const count = digest.articles.length;
+
+        setStatus(
+            count
+                ? `Collection completed. ${count} articles found.`
+                : "No recent articles found. Try another topic.",
+            count ? "success" : "default"
+        );
+
+    } catch (error) {
+        setStatus(error.message || "Unable to connect to Flask.", "error");
+    } finally {
+        button.disabled = false;
+        button.querySelector("span").textContent = "Collect and summarize";
+        $("articles").setAttribute("aria-busy", "false");
+    }
+});
+
+document.querySelectorAll(".topic-chip").forEach(button => {
+    button.addEventListener("click", () => {
+        $("topic").value = button.dataset.topic;
+        $("topic").focus();
+    });
+});
+
+function downloadFile(filename, content, type) {
+    const blob = new Blob([content], { type });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+
+    link.href = url;
+    link.download = filename;
+    link.click();
+
+    URL.revokeObjectURL(url);
+}
+
+$("jsonBtn").addEventListener("click", () => {
+    downloadFile(
+        "news_digest.json",
+        JSON.stringify(digest, null, 2),
+        "application/json"
+    );
+});
+
+$("csvBtn").addEventListener("click", () => {
+    const fields = [
+        "title", "source", "url",
+        "published_at", "retrieved_at", "summary"
+    ];
+
+    const quote = value =>
+        '"' + String(value ?? "").replace(/"/g, '""') + '"';
+
+    const rows = [
+        fields.join(","),
+        ...digest.articles.map(article =>
+            fields.map(field => quote(article[field])).join(",")
+        )
+    ];
+
+    downloadFile(
+        "news_digest.csv",
+        rows.join("\r\n"),
+        "text/csv;charset=utf-8"
+    );
+});
+
+$("mdBtn").addEventListener("click", () => {
+    let markdown = `# News Automation: ${digest.topic}\n\n`;
+    markdown += `Articles collected: ${digest.articles.length}\n\n`;
+
+    digest.articles.forEach((article, index) => {
+        markdown += `## ${index + 1}. ${article.title}\n\n`;
+        markdown += `**Publisher:** ${article.source}\n\n`;
+        markdown += `**Published:** ${formatDate(article.published_at)}\n\n`;
+        markdown += `**Summary:** ${article.summary}\n\n`;
+        markdown += `[Read original article](${article.url})\n\n---\n\n`;
+    });
+
+    downloadFile(
+        "news_digest.md",
+        markdown,
+        "text/markdown;charset=utf-8"
+    );
+});
+</script>
+
+</body>
+</html>
